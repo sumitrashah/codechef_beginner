@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+map<string,int>point,goals;
+
+bool cmp(string &a,string &b)
+{
+    if(point[a]>point[b])
+    return 1;
+    if(point[b]>point[a])
+    return 0;
+    if(goals[a]>goals[b])
+    return 1;
+    return 0;
+    
+}
+
+int main()
+{
+   int t;
+   cin>>t;
+   while(t--)
+   {
+       point.clear();
+       goals.clear();
+       
+       string team1,team2,vs;
+       int g1,g2;
+       set<string> teams;
+       for(int i=0;i<12;i++)
+       {
+           cin>>team1>>g1>>vs>>g2>>team2;
+           if(g1>g2)
+           point[team1]+=3;
+           else if(g2>g1)
+           point[team2]+=3;
+           else
+           {
+               point[team1]++,point[team2]++;
+           }
+           
+           goals[team1]+=g1-g2;
+           goals[team2]+=g2-g1;
+           teams.insert(team1);
+           teams.insert(team2);
+           
+       }
+       
+       std::vector<string>v(teams.begin(),teams.end()) ;
+       sort(v.begin(),v.end(),cmp);
+       cout<<v[0]<<" "<<v[1]<<endl;
+       
+   }
+
+    return 0;
+}
