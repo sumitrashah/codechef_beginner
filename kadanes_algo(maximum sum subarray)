@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define fast ios_base::sync_with_stdio(false);cin.tie(NULL)
+#define ll long long int 
+
+ll kadanes_algo(ll a[],ll n)
+{
+     ll currsum=0,maxsum=INT_MIN;
+	    for(ll i=0;i<n;i++)
+	    {
+	       
+	        currsum+=a[i];
+	        if(currsum<a[i])
+	        currsum=a[i];
+	        
+	        if(currsum>maxsum)
+	        maxsum=currsum; 
+	        
+	    }
+	    return maxsum;
+}
+
+int main() {
+    fast;
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    ll n;
+	    cin>>n;
+	    ll a[n];
+	    for(ll i=0;i<n;i++)
+	    cin>>a[i];
+	    
+	    cout<<kadanes_algo(a,n)<<endl;
+	}
+	return 0;
+}
