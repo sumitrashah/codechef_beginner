@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	//code
+	int t;cin>>t;
+	while(t--)
+	{
+	   string s;
+	   string p;
+	   cin>>s;
+	   cin>>p;
+	  int m[256]={0};
+	  for(int i=0;i<=256;i++)
+	    m[i]=0;
+	    
+	   for(int i=0;i<p.length();i++)
+	    m[p[i]]++;
+	   
+	   int left=0,right=0,count=0,minlen=INT_MAX,f=0;
+	   string ans="";
+	   for(right=0;right<s.length();right++)
+	   {
+	       if(--m[s[right]]>=0)
+	     {  
+	         count++;
+	        
+	     }
+	    //  m[s[right]]--;
+	       while(count==p.length())
+	       {
+	          
+	       if(minlen>right-left+1)
+	           {
+	                minlen=right-left+1;
+	                ans=s.substr(left,minlen);
+	                f=1;
+	           }
+	           
+	           if(++m[s[left]]>0)
+	           {
+	               count--;
+	           }
+	           
+	           left++;
+	           
+	       }
+	       
+	       
+	   }
+	   if(f==1)
+	   cout<<ans<<endl;
+	   else
+	   cout<<-1<<endl;
+	}
+	return 0;
+}
