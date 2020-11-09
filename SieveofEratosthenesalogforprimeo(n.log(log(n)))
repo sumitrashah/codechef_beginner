@@ -1,0 +1,32 @@
+class Solution
+{
+public:
+    vector<int> sieveOfEratosthenes(int N)
+    {
+      
+       bool prime[N+1] = {0};
+        fill(prime+2, prime+N+1, true);
+        
+        for(int p = 2; p * p <= N; p++)
+        {
+            if(prime[p] == true)
+            {
+                for(int i = p * p; i <= N; i += p)
+                {
+                    prime[i] = false;
+                }
+            }
+        }
+        
+        vector<int> res;
+        for(int i = 2; i <= N; i++)
+        {
+            if(prime[i] == true)
+            {
+                res.push_back(i);
+            }
+        }
+        
+        return res;
+    }
+};
