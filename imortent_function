@@ -1,0 +1,307 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+ 
+
+#define ll long long int
+
+#define sll signed long long int
+
+#define ull unsigned long long int
+
+#define umax uintmax_t
+
+ 
+
+#define um unordered_map
+
+#define us unordered_set
+
+#define mm multimap
+
+#define pq priority_queue
+
+#define pi pair<int,int>
+
+#define vi vector<int>
+
+#define vll vector<ll>
+
+#define gi greater<int>
+
+ 
+
+#define mp make_pair
+
+#define pb push_back
+
+#define fir first
+
+#define sec second
+
+#define M 1000000007
+
+ 
+
+template<typename T>
+
+T gcd(T a,T b)
+
+{
+
+  if(a==0)
+
+     return b;
+
+  return gcd(b%a,a);
+
+}
+
+template<typename T>
+
+T lcm(T a,T b)
+
+{
+
+  T g=gcd<T>(a,b);
+
+  return (a*b)/g;
+
+}
+
+template<typename T>
+
+bool isprime(T n)
+
+{
+
+  if(n<=1)
+
+     return false;
+
+  for(int i=2;i<sqrt(n);i++)
+
+     if(n%i==0)
+
+        return false;
+
+  return true;
+
+}
+
+vector<bool> prime;
+
+void seive(ll n=4000000)
+
+{
+
+  prime.resize(n+1);
+
+  fill(prime.begin(),prime.end(),true);
+
+  prime[0]=prime[1]=false;
+
+  for(ll i=2;i*i<=n;i++)
+
+  {
+
+     if(prime[i]==true)
+
+     {
+
+        for(ll j=i*i;j<=n;j+=i)
+
+           prime[j]=false;
+
+     }
+
+  }
+
+}
+
+// const ll s=1000000;
+
+// vector<ll> pr;
+
+// ll lp[s+1];
+
+// void modified_sieve()
+
+// {
+
+//    for(int i=2;i<=s;i++)
+
+//    {
+
+//       if(lp[i]==0)
+
+//       {
+
+//          lp[i]=i;
+
+//          pr.pb(i);
+
+//       }
+
+     
+
+//       for(int j=0;j<(ll)pr.size() && pr[j]<=lp[i] && i*pr[j]<=s;++j)
+
+//       {
+
+//          lp[i*pr[j]]=pr[j];
+
+//       }
+
+//    }
+
+// }
+
+ 
+
+void solve();
+
+int main()
+
+{
+
+  ios_base::sync_with_stdio(false);
+
+  cin.tie(NULL);
+
+  cout.tie(NULL);
+
+ 
+
+  #ifndef ONLINE_JUDGE
+
+     freopen("input.txt", "r", stdin);
+
+     freopen("error.txt", "w", stderr);
+
+     freopen("output.txt", "w", stdout);
+
+  #endif
+
+   
+
+  ll t=1;
+
+  cin>>t;
+
+  while(t--)
+
+  {
+
+     solve();
+
+     cout<<"\n";
+
+  }
+
+ 
+
+  cerr<<"Time Taken : "<<(float)clock()/CLOCKS_PER_SEC<<" secs"<<endl;
+
+  return 0;
+
+}
+
+ 
+
+void solve()
+
+{
+
+  ll n,q,k;
+
+  cin>>n>>q;
+
+  vector<pair<ll,ll>> v;
+
+ 
+
+  for(int i=0;i<n;i++)
+
+  {
+
+     ll a,b;
+
+     cin>>a>>b;
+
+     v.pb({a,b});
+
+  }
+
+ 
+
+  sort(v.begin(),v.end());
+
+ 
+
+  //merge the intervals...
+
+  int i=0;
+
+  for(int j=1;j<n;j++)
+
+  {
+
+     if(v[i].sec>=v[j].fir)
+
+        v[i].sec=max(v[i].sec,v[j].sec);
+
+ 
+
+     else
+
+     {
+
+        i++;
+
+        v[i]=v[j];
+
+     }
+
+  }
+
+ 
+
+  while(q--)
+
+  {
+
+     cin>>k;
+
+     ll ans=-1;
+
+ 
+
+     for(int j=0;j<=i;j++)
+
+     {
+
+        if((k-1+v[j].fir)<=v[j].sec)
+
+        {
+
+           ans=v[j].fir+k-1;
+
+           break;
+
+        }
+
+        else
+
+           k=k-(v[j].sec-v[j].fir+1);
+
+     }
+
+ 
+
+     cout<<ans<<"\n";
+
+  }
+
+}
