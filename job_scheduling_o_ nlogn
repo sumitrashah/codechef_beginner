@@ -1,0 +1,48 @@
+class Solution {
+public:
+    class Range {
+        public:
+        int start;
+        int end;
+        int profit;
+        bool operator < (Range& a) {
+            return end < a.end;
+        }
+    };
+    int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
+        int n = startTime.size();
+        vector<Range> time(n);
+        for(int i = 0; i < n; i++) {
+            time[i].start = startTime[i];
+            time[i].end = endTime[i];
+            time[i].profit = profit[i];
+        }
+        sort(time.begin(), time.end());
+        vector<int> dp(n);
+        for(int i = 0; i < n; i++) {
+            dp[i] = time[i].profit;
+        }
+        vector<int> prefMax(n);
+        auto BinarySearch = [&] (int val, int high) {
+            int low = 0;
+            int pos = -1;
+            while(low <= high) {
+                int mid = (low + high) / 2;
+                if(time[mid].end <= val) {
+                    pos = mid;
+                    low = mid + 1;
+                }
+                else {
+                    high = mid - 1; 
+                }
+            }
+            return pos;
+        };
+        for(int i = 0; i < n; i++) {
+            int pos = BinarySearch(time[i].start, i - 1);
+            dp[i] = max(dp[i], (pos == -1 ? 0 : prefMax[pos]) + time[i].profit);
+            prefMax[i] = max((i == 0 ? 0 : prefMax[i - 1]), dp[i]);
+        }
+        return prefMax[n - 1];
+    }
+};
