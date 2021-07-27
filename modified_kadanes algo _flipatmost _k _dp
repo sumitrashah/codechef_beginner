@@ -1,0 +1,72 @@
+
+#include <bits/stdc++.h>
+
+using namespace std;
+#define ll long long int 
+#define mod 1000000007
+
+//std::vector<ll>ad[1005] ;
+
+int dp[10005][10005];
+
+int solve(vector<int>a,int i,int k,int c )
+{
+   if(i==a.size())
+   return 0;
+   
+   if(c>k)
+   return -1e9;
+   
+   if(dp[i][c]!=-1)
+   return dp[i][c];
+   
+   int ans=0;
+   
+   ans=max(0,a[i]+solve(a,i+1,k,c));
+   ans=max(ans,-a[i]+solve(a,i+1,k,c+1));
+   
+   return dp[i][c]=ans;
+   
+   
+  
+}
+
+int maxele(vector<int>a)
+{
+   int n=a.size();
+   int ans=a[0];
+   for(int i=1;i<n;i++)
+   ans=max(ans,a[i]);
+   
+   return ans;
+}
+
+int main()
+{
+    
+    int n,k;
+    cin>>n>>k;
+    
+    memset(dp,-1,sizeof(dp));
+    vector<int>a(n+1);
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+    
+    int ans=-1e9;
+    
+    for(int i=0;i<n;i++)
+    ans=max(ans,solve(a,i,k,0));
+    
+    if(ans==0&&k==0)
+    cout<<maxele(a)<<endl;
+    else
+    cout<<ans<<endl;
+   
+    
+    
+  
+
+    
+
+    return 0;
+}
