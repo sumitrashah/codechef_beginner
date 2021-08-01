@@ -1,0 +1,71 @@
+
+
+#include <bits/stdc++.h>
+
+using namespace std;
+void printVector(char c, vector<char> &v)
+{
+    cout << c << " —> ";
+    for (auto i: v) {
+        cout << i << " ";
+    }
+    cout << endl;
+}
+
+vector<char>allemp(char manger,unordered_map<char, vector<char>> managerToEmployeeMappings,map<char,vector<char>>&result)
+{
+   if(result.find(manger)!=result.end())
+   return result[manger];
+   
+   vector<char>managerEmployees=managerToEmployeeMappings[manger];
+   
+   for(char i:managerToEmployeeMappings[manger])
+   {
+      vector<char>employees=allemp(i,managerToEmployeeMappings,result);
+      
+      move(employees.begin(),employees.end(),back_inserter(managerEmployees));
+   }
+   
+   result[manger]=managerEmployees;
+   return managerEmployees;
+}
+
+void getmanger( unordered_map<char, char> employeeToManagerMappings)
+{
+    unordered_map<char, vector<char>> managerToEmployeeMappings;
+    
+    for(auto i:employeeToManagerMappings)
+    {
+       char e=i.first;
+       char m=i.second;
+       if(e!=m)
+       managerToEmployeeMappings[m].push_back(e);
+       
+    }
+   map<char, vector<char>> result;
+    
+    for(auto i:employeeToManagerMappings)
+    {
+       allemp(i.first,managerToEmployeeMappings,result);
+    }
+    
+    for(auto i:result)
+    {
+       printVector(i.first,i.second);
+    }
+    
+    
+}
+
+
+int main()
+{
+    // construct a mapping from employee to manager
+    unordered_map<char, char> employeeToManagerMappings = {
+        {'A', 'A'}, {'B', 'A'}, {'C', 'B'}, {'D', 'B'}, {'E', 'D'}, {'F', 'E'}
+    };
+ 
+    getmanger(employeeToManagerMappings);
+ 
+    return 0;
+}
