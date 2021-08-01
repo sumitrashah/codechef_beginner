@@ -1,0 +1,103 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include<bits/stdc++.h>
+#define R 3
+#define C 3
+
+using namespace std;
+
+int dp[R+1][C+1];
+
+int x[] = {0, 1, 1, -1, 1, 0, -1, -1};
+int y[] = {1, 0, 1, 1, -1, -1, 0, -1};
+bool isvalid(int x,int y)
+{
+   if(x < 0 || y<0 || x >= R|| y>= C)
+   return false;
+   return true;
+}
+bool iscon(char a,char b)
+{
+   if(a-b==1)
+   return true;
+   return false;
+}
+int getLenUtil(char mat[R][C], int i, int j, char prev)
+{
+     // If this cell is not valid or current character is not
+     // adjacent to previous one (e.g. d is not adjacent to b )
+     // or if this cell is already included in the path than return 0.
+    if (!isvalid(i, j) || !iscon(prev, mat[i][j]))
+         return 0;
+ 
+    // If this subproblem is already solved , return the answer
+    if (dp[i][j] != -1)
+        return dp[i][j];
+ 
+    int ans = 0;  // Initialize answer
+ 
+    // recur for paths with different adjacent cells and store
+    // the length of longest path.
+    for (int k=0; k<8; k++)
+      ans = max(ans, 1 + getLenUtil(mat, i + x[k],
+                                   j + y[k], mat[i][j]));
+ 
+    // save the answer and return
+    return dp[i][j] = ans;
+}
+
+int getmax(char mat[R][C],int i,int j,char prev)
+{
+   if(! isvalid( i , j ) || !iscon( mat[i][j] , prev))
+   return 0;
+   
+   if(dp[i][j] != -1)
+   return dp[i][j];
+   int ans=0;
+   for(int k=0;k<8;k++)
+   {
+      ans=max(ans,1 + getmax(mat, i + x[k] , j  + y[k] , mat[i][j]));
+   }
+   return  dp[i][j] = ans;
+}
+
+ int getLen(char mat[R][C],char s)
+{
+   memset(dp, -1, sizeof dp);
+    int ans = 0;
+ 
+    for (int i=0; i<R; i++)
+    {
+        for (int j=0; j<C; j++)
+        {
+            // check for each possible starting point
+            if (mat[i][j] == s) {
+ 
+                // recur for all eight adjacent cells
+                for (int k=0; k<8; k++)
+                  ans = max(ans, 1 + getmax(mat,
+                                    i + x[k], j + y[k], s));
+            }
+        }
+    }
+    return ans;
+}
+
+int main() {
+ 
+    char mat[R][C] = { {'a','c','d'},
+                     { 'h','b','a'},
+                     { 'i','g','f'}};
+ 
+    cout << getLen(mat, 'a') << endl;
+    cout << getLen(mat, 'e') << endl;
+    cout << getLen(mat, 'b') << endl;
+    cout << getLen(mat, 'f') << endl;
+    return 0;
+}
