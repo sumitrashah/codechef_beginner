@@ -1,0 +1,73 @@
+
+
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef pair<int,int> point;
+
+
+int countOperations(int n,int m)
+{
+   std::queue<point>q ;
+   q.push({n,0});
+   std::vector<bool>vis(100001,false) ;
+   vis[n]=true;
+   
+   while(!q.empty())
+   {
+      point p;
+      p=q.front();q.pop();
+      int a=p.first;
+      int b=p.second;
+      if(p.first==m)
+      return p.second;
+      
+      for(int i = 2 ; i * i <=a;i++)
+      {
+         if(a%i==0)
+         {
+            if(a+i<=m && !vis[a+i])
+            {
+               q.push({a+i,b+1});
+               vis[a+i]=true;
+            }
+            int x=n/i;
+            
+            if (a + a / i <= m
+                    && !vis[a + a / i]) {
+                    q.push(
+                        make_pair(a + a / i, b + 1));
+                    vis[a + a / i] = true;
+                }
+          /*  
+            if(a+x<=m &&!vis[a+x])
+            {
+               q.push({a+x,1+b});
+               vis[a+x]=true;
+            }*/
+            
+           
+         }
+         
+         
+         
+         
+         
+         
+      }
+      
+      
+   }
+   return -1;
+   
+}
+
+int main()
+{
+ 
+    int N = 4, M = 24;
+ 
+    cout << countOperations(N, M);
+ 
+    return 0;
+}
