@@ -1,0 +1,131 @@
+
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int solve(string s,int k)
+{
+   int n=s.size();
+   int i=0,j=0;
+   
+   unordered_map<char,int>m;
+   
+   
+   int ans=0,count=0;
+   
+   
+   while(i<n)
+   {
+      m[s[i]]++;
+      
+      while(m.size()>k)
+      {
+         if(--m[s[j]]==0)
+         m.erase(s[j]);
+         j++;
+      }
+      
+      ans+=i-j;
+      i++;
+   }
+   return ans;
+   
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+       string s;
+       cin>>s;
+       int k;cin>>k;
+       cout<<solve(s,k)-solve(s,k-1)<<endl;
+       
+       
+    }
+    return 0;
+}
+
+longest substring with all district char
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s.size()==0)
+            return 0;
+        int m[256];
+        memset(m,0,sizeof(m));
+        int count=0;
+        int dis=0;
+        
+        int i=0,j=0;
+        int n=s.size();
+        int ans=1;
+        
+        for(i=0,j=0;j<n;j++)
+        {
+            i=max(m[s[j]],i);
+            
+            ans=max(ans,j-i+1);
+            m[s[j]]=j+1;
+        }
+        
+        return ans;
+        
+    }
+};
+
+longest_substring_with_almost_k distict cahr
+
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int solve(string s,int k)
+{
+   int n=s.size();
+   int i=0,j=0;
+   
+   unordered_map<char,int>m;
+   
+   
+   int ans=0,count=0;
+   
+   
+   while(i<n)
+   {
+      m[s[i]]++;
+      
+      while(m.size()>k)
+      {
+         if(--m[s[j]]==0)
+         m.erase(s[j]);
+         j++;
+      }
+      
+      ans=max(ans,i-j+1);
+      i++;
+   }
+   return ans;
+   
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+       string s;
+       cin>>s;
+       int k;cin>>k;
+       cout<<solve(s,k)<<endl;
+       
+       
+    }
+    return 0;
+}
