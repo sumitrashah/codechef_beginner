@@ -1,0 +1,54 @@
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+int runCustomerSimulation(int cap,string s)
+{
+   unordered_map<char,int>m;
+   int occu=0;
+   int ans=0;
+   for(auto i:s)
+   {
+      if(m.find(i)==m.end())
+      {
+         m[i]=1;
+         if(occu<cap)
+         {
+            m[i]=2;
+            occu++;
+         }
+         else
+         {
+            ans++;
+         }
+      }
+      else
+      {
+         
+         if(m[i]==2)
+         {
+            occu--;
+         }
+         m[i]=0;
+      }
+   }
+   
+   return ans;
+}
+
+int main()
+{
+    cout << runCustomerSimulation(2, "ABBAJJKZKZ") << endl;
+    cout << runCustomerSimulation(3, "GACCBDDBAGEE") << endl;
+    cout << runCustomerSimulation(3, "GACCBGDDBAEE") << endl;
+    cout << runCustomerSimulation(1, "ABCBCA") << endl;
+    cout << runCustomerSimulation(1, "ABCBCADEED") << endl;
+    return 0;
+    0
+1
+0
+2
+3  
+}
